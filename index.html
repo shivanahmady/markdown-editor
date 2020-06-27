@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>MeMarkDown</title>
+    <script src="https://unpkg.com/vue"></script>
+    <script src="https://unpkg.com/marked@0.3.6"></script>
+    <script src="https://unpkg.com/lodash@4.16.0"></script>
+    <link rel="stylesheet" type="text/css" href="style.css" />
+  </head>
+
+  
+  <body>
+    <div id="editor">
+      <div v-html="compiledMarkdown"></div>
+
+      <textarea :value="input" @input="update"></textarea>
+    </div>
+
+    <script>
+      new Vue({
+        el: "#editor",
+        data: {
+          input: "# hello \n  \ \n \
+          \n  \
+# h1 Heading \n \
+## h2 Heading \n \
+### h3 Heading \n \
+#### h4 Heading \n \
+##### h5 Heading  \n \
+###### h6 Heading \n \
+\n  \
+\n  \
+\n  \
+------ \n \
+\n  \
+\n  \
+|                |ASCII                          |HTML                         |  \n \
+|----------------|-------------------------------|-----------------------------|  \n \
+|Single backticks|Isnt this fun?           |Isnt this fun?            |           \n \
+|Quotes          |Isnt this fun?            |Isnt this fun?            |          \n \
+|Dashes          |gfhg |fdgd|                                                       \n \
+\n  \
+\n  \
+------ \n \
+\n  \
+\n  \
+> You can find it here [here](http://google.com)  \n \
+ Open a file \n \
+=============== \n \
+In elementum feugiat feugiat. Aliquam est arcu, convallis sit amet erat nec, mattis auctor sem. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Praesent non sapien non lorem ultricies facilisis. Quisque augue diam, \n \
+- dis parturient montes, nascetur ridiculus mus. Praesent non sapien non lorem ultricies facilisis. Quisque augue diam, \n \
+- dis parturient montes, nascetur ridiculus mus. Praesent non sapien non lorem ultricies facilisis. Quisque augue diam, \n \
+\n \
+__BOLD__\n \
+\n \
+*italic*\n \
+\n \
+----------------- \n \
+\n \
+`code` \n \
+"  
+        },
+        computed: {
+          compiledMarkdown: function() {
+            return marked(this.input, { sanitize: true });
+          }
+        },
+        methods: {
+          update: _.debounce(function(e) {
+            this.input = e.target.value;
+          }, 300)
+        }
+      });
+    </script>
+  </body>
+</html>
